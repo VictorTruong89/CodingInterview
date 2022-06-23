@@ -4,7 +4,7 @@
  * 
  * @brief Remove Nth Node From End of List
  * @date 2022-06-21
- * @link https://leetcode.com/problems/remove-nth-node-from-end-of-list/
+ * @link https://leetcode.com/problems/remove-nth-node-from-end-of-list/ @endlink 
  * 
  * Given the head of a linked list, remove the nth node from the end of the list and return its head.
  * 

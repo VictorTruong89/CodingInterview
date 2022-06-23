@@ -4,7 +4,7 @@
  * 
  * @brief Covert a string to a 32-bit integer
  * @date 2022-06-21
- * @link https://leetcode.com/problems/string-to-integer-atoi/
+ * @link https://leetcode.com/problems/string-to-integer-atoi/ @endlink 
  * 
  * Implement the myAtoi(string s) function, which converts a string to a 32-bit signed integer (similar to C/C++'s atoi function).
  * The algorithm for myAtoi(string s) is as follows:

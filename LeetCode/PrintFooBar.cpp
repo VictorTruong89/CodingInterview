@@ -110,3 +110,56 @@ public:
         }
     }
 };
+
+
+/* Solution using CONDVAR */
+#include <pthread.h>
+
+class FooBarUseCondVar {
+private:
+    int n;
+    
+    bool bfoo = true;
+    pthread_mutex_t mut;
+    pthread_cond_t cv;
+
+public:
+    FooBarUseCondVar(int n) {
+        this->n = n;
+        pthread_mutex_init (&mut, NULL);
+        pthread_cond_init(&cv, NULL);
+    }
+
+    void foo(function<void()> printFoo) {
+        
+        for (int i = 0; i < n; i++) {
+            pthread_mutex_lock(&mut);
+            while(!bfoo) {
+                pthread_cond_wait(&cv, &mut);
+            }
+            
+        	// printFoo() outputs "foo". Do not change or remove this line.
+        	printFoo();
+            
+            bfoo = false;
+            pthread_cond_signal(&cv);
+            pthread_mutex_unlock(&mut);
+        }
+    }
+
+    void bar(function<void()> printBar) {
+        for (int i = 0; i < n; i++) {
+            pthread_mutex_lock(&mut);
+            while(bfoo) {
+                pthread_cond_wait(&cv, &mut);
+            }
+            
+        	// printBar() outputs "bar". Do not change or remove this line.
+        	printBar();
+            
+            bfoo = true;
+            pthread_cond_signal(&cv);
+            pthread_mutex_unlock(&mut);
+        }
+    }
+};

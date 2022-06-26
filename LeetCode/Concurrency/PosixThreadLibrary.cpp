@@ -205,6 +205,68 @@ Thread2 always ready, regardless of value of "count"
 
 
 
+
+/**
+ * @brief THREAD SYNCHRONIZATION - SEMAPHORE
+ * 
+ * Replicating the Producer / Consumer Problem
+ * 
+ */
+#include <semaphore.h>
+typedef struct {
+    char buf[BSIZE];
+    sem_t occupied;
+    sem_t empty;    // producer semaphore
+    int producerId;
+    int consumerId;
+    sem_t pmut;     // producer mutex
+    sem_t cmut;     // consumer mutex
+} buffer_t;
+buffer_t buffer;
+
+// Consumer semaphore - Initially no Consumer can enter, unless this semaphore is increased by producer_thread
+sem_init(&buffer.occupied, 0, 0);
+
+// Producer semaphore - As many producer as BSIZE can acquire access to write to buffer
+sem_init(&buffer.empty, 0, BSIZE);
+
+sem_init(&buffer.pmut, 0, 1);   // Initialize pmut as binary semaphore, effectively equivalent to mutex
+sem_init(&buffer.cmut, 0, 1);   // Initialize pmut as binary semaphore, effectively equivalent to mutex
+buffer.producerId = buffer.consumerId = 0;
+
+// Producer thread
+void producer(buffer_t* b, char item) {
+    sem_wait(&b->empty);
+    sem_wait(&b->pmut);
+
+    b->buf[b->producerId] = item;
+    b->producerId++;
+    b->producerId %= BSIZE; // Re-iterate to 0 if producerId exceeds BSIZE
+
+    sem_post(&b->pmut);     // release producer_mutex
+    sem_post(&b->occupied); // Increase this semaphore >> signal consumer_thread to enter
+}
+
+// Consumer thread
+char consumer(buffer_t* b) {
+    char item;
+    
+    sem_wait(&b->occupied);
+    sem_wait(&b->cmut);
+
+    item = b->buff[b->consumerId];
+    b->consumerId++;
+    b->consumerId %= BSIZE; // Re-iterate to 0 if consumerId exceeds BSIZE
+
+    sem_post(&b->cmut);
+    sem_post(&b->empty);
+
+    return item;
+}
+
+
+
+
 /** ==================================================
  * @brief THREAD SCHEDULING
  * 

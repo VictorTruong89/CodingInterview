@@ -54,13 +54,13 @@ public:
         lookup[0][0] = true;
         
         // Check for scenario '*' match with empty string
-        for(int j=1; j <= p.length(); j++) {
+        for(int j = 1; j <= p.length(); j++) {
             if(p[j - 1] == '*')
                 lookup[0][j] = lookup[0][j - 1];
         }
         
         // Fill the lookup table in bottom-up order
-        for(int i=1; i <= s.length(); i++) {
+        for(int i = 1; i <= s.length(); i++) {
             for(int j = 1; j <= p.length(); j++) {
                 // When encounter '*'
                 if(p[j - 1] == '*')
@@ -71,7 +71,7 @@ public:
                 else if(p[j - 1] == '?' || s[i - 1] == p[j - 1])
                     lookup[i][j] = lookup[i - 1][j - 1];
                 
-                else // If character not match
+                else    // If character not match
                     lookup[i][j] = false;
             }
         }

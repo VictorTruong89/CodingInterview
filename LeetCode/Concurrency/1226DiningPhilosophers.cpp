@@ -1,5 +1,5 @@
 /**
- * @file DiningPhilosophers.cpp
+ * @file 1226DiningPhilosophers.cpp
  * @author VictorTruong
  * 
  * @brief The dining philosophers with Concurrency

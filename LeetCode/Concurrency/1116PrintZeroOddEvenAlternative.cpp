@@ -1,5 +1,5 @@
 /**
- * @file PrintZeroOddEvenAlternative.cpp
+ * @file 1116PrintZeroOddEvenAlternative.cpp
  * @author Victor Truong
  * 
  * @brief Print 0-Odd-0-Even in series until it reaches a given n-number
